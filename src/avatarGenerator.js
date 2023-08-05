@@ -1,18 +1,6 @@
-import { getParts } from './getParts.js';
+const { getParts } = require('./getParts');
 
-type avatarDetail = {
-    bg?: string | null;
-    body?: string | null;
-    hair?: string | null;
-    eye?: string | null;
-    mouth?: string | null;
-    head?: string | null;
-    outfit?: string | null;
-    accessory?: string | null;
-    facialHair?: string | null;
-};
-
-export const avatarGenerator = async ({
+const avatarGenerator = async ({
     bg,
     body,
     hair,
@@ -21,7 +9,7 @@ export const avatarGenerator = async ({
     head,
     outfit,
     accessory
-}: avatarDetail) => (`
+}) => (`
     <style>
 
 .avatar-part {
@@ -70,3 +58,5 @@ export const avatarGenerator = async ({
 `)
 
 // ${getParts('facialHairs', facialHair, 8)}
+
+module.exports = { avatarGenerator }

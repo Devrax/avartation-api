@@ -1,22 +1,27 @@
-import express, { Express, Request, Response } from 'express';
-import { avatarGenerator } from './avatarGenerator.js';
-import { config } from 'dotenv';
-import Puppeteer, { PuppeteerNode } from 'puppeteer';
-import Pupcore from 'puppeteer-core';
-import Chromium from 'chrome-aws-lambda';
+const app = require('express')();
+const { avatarGenerator } = require('./avatarGenerator');
+const { config } = require('dotenv');
+const port = process.env.PORT ?? '3000';
+
 config();
 
-const app: Express = express(),
-    port = process.env.PORT ?? '3000';
+let chrome = {};
+let puppeteer;
 
 const isProduction = process.env.AWS_LAMBDA_FUNCTION_VERSION;
-let puppeteer: unknown = isProduction ? Pupcore : Puppeteer;
+if (isProduction) {
+    chrome = require("chrome-aws-lambda");
+    puppeteer = require("puppeteer-core");
+  } else {
+    puppeteer = require("puppeteer");
+  }
+
 
 
 app.get('/', (_, res) => res.redirect(302, 'https://www.avatartion.com/'))
-app.get("/api", async (request: Request, response: Response): Promise<void> => {
+app.get("/api", async (request, response) => {
 
-    let options = isProduction ? {
+    const options = isProduction ? {
             args: [...Chromium.args, "--hide-scrollbars", "--disable-web-security"],
             defaultViewpot: Chromium.defaultViewport,
             executablePath: await Chromium.executablePath,
@@ -27,26 +32,26 @@ app.get("/api", async (request: Request, response: Response): Promise<void> => {
             args: ['--no-sandbox' ]
         };
 
-    const browser = await (puppeteer as PuppeteerNode).launch(options);
+    const browser = await puppeteer.launch(options);
     try {
         const page = await browser.newPage();
         const searchParams = request.query;
 
         const vdom = `
             ${await avatarGenerator({
-            body: searchParams?.body as string ?? null,
-            bg: searchParams?.bg as string ?? null,
-            hair: searchParams?.hair as string ?? null,
-            eye: searchParams?.eyes as string ?? null,
-            mouth: searchParams?.mouth as string ?? null,
-            head: searchParams?.face as string ?? null,
-            outfit: searchParams?.outfit as string ?? null,
-            accessory: searchParams?.accessory as string ?? null
+            body: searchParams?.body ?? null,
+            bg: searchParams?.bg ?? null,
+            hair: searchParams?.hair ?? null,
+            eye: searchParams?.eyes ?? null,
+            mouth: searchParams?.mouth ?? null,
+            head: searchParams?.face ?? null,
+            outfit: searchParams?.outfit ?? null,
+            accessory: searchParams?.accessory ?? null
         })}
         `
 
         await page.setContent(vdom)
-        const elementHandle: any = await page.$('#main-content');
+        const elementHandle = await page.$('#main-content');
 
         const imageBuffer = await elementHandle.screenshot({ type: "png" });
 
@@ -63,3 +68,5 @@ app.get("/api", async (request: Request, response: Response): Promise<void> => {
 })
 
 app.listen(port, () => console.log(`app listening on port localhost:${port}`));
+
+module.exports = app;

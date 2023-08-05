@@ -1,24 +1,12 @@
-import fs from 'fs';
+const fs = require('fs');
 
-function randomPart(src: string, qty: number) {
+function randomPart(src, qty) {
     return `${src}${Math.floor(Math.random() * qty + 1)
       .toString()
       .padStart(2, "0")}`;
   }
 
-type Parts = {
-    bg: string;
-    body: string;
-    accessories: string;
-    eyes: string;
-    faces: string;
-    hairs: string;
-    mouths: string;
-    outfits: string;
-    // facialHairs: string; TODO: Search for missing facial-hair
-};
-
-const parts: Parts = {
+const parts = {
     bg: 'base/Bg',
     body: 'base/Body',
     accessories: 'accessories/Accessory',
@@ -30,9 +18,9 @@ const parts: Parts = {
     // facialHairs: 'facial-hair/FacialHair' TODO: Search for missing facial-hair
 };
 
-export function getParts(part: keyof Parts, name: string | null = '', itemsAv = 0) {
+function getParts(part, name = '', itemsAv = 0) {
     try {
-        let path = './dist/src/parts/' + (
+        let path = './src/parts/' + (
             parts[part].includes('base/')
             ? parts[part]
             : name ? part+'/'+name : randomPart(parts[part], itemsAv)) + '.svg';
@@ -43,3 +31,5 @@ export function getParts(part: keyof Parts, name: string | null = '', itemsAv = 
         console.error(err);
     }
 }
+
+module.exports = { getParts };
