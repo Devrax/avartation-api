@@ -1,14 +1,14 @@
 const { getParts } = require('./getParts');
 
 const avatarGenerator = async ({
-    bg,
-    body,
-    hair,
-    eye,
-    mouth,
-    head,
-    outfit,
-    accessory
+  bg,
+  body,
+  hair,
+  eye,
+  mouth,
+  head,
+  outfit,
+  accessory
 }) => (`
     <style>
 

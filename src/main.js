@@ -12,9 +12,9 @@ const isProduction = process.env.AWS_LAMBDA_FUNCTION_VERSION;
 if (isProduction) {
     chrome = require("chrome-aws-lambda");
     puppeteer = require("puppeteer-core");
-  } else {
+} else {
     puppeteer = require("puppeteer");
-  }
+}
 
 
 
@@ -22,15 +22,15 @@ app.get('/', (_, res) => res.redirect(302, 'https://www.avatartion.com/'))
 app.get("/api", async (request, response) => {
 
     const options = isProduction ? {
-            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-            defaultViewpot: chrome.defaultViewport,
-            executablePath: await chrome.executablePath,
-            headless: true,
-            ignoreHTTPSErrors: true,
-        } : {
-            headless: true,
-            args: ['--no-sandbox' ]
-        };
+        args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+        defaultViewpot: chrome.defaultViewport,
+        executablePath: await chrome.executablePath,
+        headless: true,
+        ignoreHTTPSErrors: true,
+    } : {
+        headless: true,
+        args: ['--no-sandbox']
+    };
 
     const browser = await puppeteer.launch(options);
     try {
