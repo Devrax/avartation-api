@@ -17,10 +17,11 @@ app.get('/', (_, res) => res.redirect(302, 'https://www.avatartion.com/'))
 app.get("/api", async (request: Request, response: Response): Promise<void> => {
 
     let options = isProduction ? {
-            args: [...Chromium.args, '--no-sandbox'],
+            args: [...Chromium.args, "--hide-scrollbars", "--disable-web-security"],
             defaultViewpot: Chromium.defaultViewport,
             executablePath: await Chromium.executablePath,
-            headless: true
+            headless: true,
+            ignoreHTTPSErrors: true,
         } : {
             headless: true,
             args: ['--no-sandbox' ]

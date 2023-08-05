@@ -64,13 +64,14 @@ app.get("/api", function (request, response) { return __awaiter(void 0, void 0, 
             case 0:
                 if (!isProduction) return [3 /*break*/, 2];
                 _c = {
-                    args: __spreadArray(__spreadArray([], Chromium.args, true), ['--no-sandbox'], false),
+                    args: __spreadArray(__spreadArray([], Chromium.args, true), ["--hide-scrollbars", "--disable-web-security"], false),
                     defaultViewpot: Chromium.defaultViewport
                 };
                 return [4 /*yield*/, Chromium.executablePath];
             case 1:
                 _a = (_c.executablePath = _m.sent(),
                     _c.headless = true,
+                    _c.ignoreHTTPSErrors = true,
                     _c);
                 return [3 /*break*/, 3];
             case 2:
