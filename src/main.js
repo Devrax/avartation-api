@@ -22,9 +22,9 @@ app.get('/', (_, res) => res.redirect(302, 'https://www.avatartion.com/'))
 app.get("/api", async (request, response) => {
 
     const options = isProduction ? {
-            args: [...Chromium.args, "--hide-scrollbars", "--disable-web-security"],
-            defaultViewpot: Chromium.defaultViewport,
-            executablePath: await Chromium.executablePath,
+            args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+            defaultViewpot: chrome.defaultViewport,
+            executablePath: await chrome.executablePath,
             headless: true,
             ignoreHTTPSErrors: true,
         } : {
