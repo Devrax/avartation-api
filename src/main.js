@@ -23,7 +23,7 @@ app.get("/api", async (request, response) => {
 
     const options = isProduction ? {
         args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-        defaultViewpot: chrome.defaultViewport,
+        defaultViewport: chrome.defaultViewport,
         executablePath: await chrome.executablePath,
         headless: true,
         ignoreHTTPSErrors: true,
