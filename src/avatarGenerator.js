@@ -9,7 +9,7 @@ const avatarGenerator = async ({
   head,
   outfit,
   accessory
-}) => (`
+}, response) => (`
     <style>
 
 .avatar-part {
@@ -47,13 +47,13 @@ const avatarGenerator = async ({
   
     </style>
     <div id="main-content" style="height: 320px;width:320;background:${bg || 'rgb(252 165 165)'};">
-        ${getParts('body', body)}
-        ${getParts('hairs', hair, 32)}
-        ${getParts('eyes', eye, 6)}
-        ${getParts('mouths', mouth, 10)}
-        ${getParts('faces', head, 8)}
-        ${getParts('outfits', outfit, 25)}
-        ${getParts('accessories', accessory, 10)}
+        ${getParts('body', body, undefined, response)}
+        ${getParts('hairs', hair, 32, response)}
+        ${getParts('eyes', eye, 6, response)}
+        ${getParts('mouths', mouth, 10, response)}
+        ${getParts('faces', head, 8, response)}
+        ${getParts('outfits', outfit, 25, response)}
+        ${getParts('accessories', accessory, 10, response)}
     </div>
 `)
 

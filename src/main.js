@@ -16,8 +16,6 @@ if (isProduction) {
     puppeteer = require("puppeteer");
 }
 
-
-
 app.get('/', (_, res) => res.redirect(302, 'https://www.avatartion.com/'))
 app.get("/api", async (request, response) => {
 
@@ -47,7 +45,7 @@ app.get("/api", async (request, response) => {
             head: searchParams?.face ?? null,
             outfit: searchParams?.outfit ?? null,
             accessory: searchParams?.accessory ?? null
-        })}
+        }, response)}
         `
 
         await page.setContent(vdom)

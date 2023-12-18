@@ -222,14 +222,15 @@ function randomPart(name, qty) {
         .padStart(2, "0")}`;
 }
 
-function getParts(part, leadZeroNumber = '', itemsAv = 0) {
+function getParts(part, leadZeroNumber = '', itemsAv = 0, response) {
     try {
         if (parts[part] === 'Body' || parts[part] === 'Bg') {
             const onlyPart = hashPart[parts[part]];
             return onlyPart.replace('fill="none"', `fill="none" class="avatar-part ${part}"`);
         }
-
-        const partSvg = leadZeroNumber ? hashPart[parts[part] + leadZeroNumber] : hashPart[randomPart(parts[part], itemsAv)];
+        const partTaken = leadZeroNumber ? parts[part] + leadZeroNumber : randomPart(parts[part], itemsAv)
+        const partSvg = hashPart[partTaken];
+        response.set('X-' + part, partTaken);
         return partSvg.replace('fill="none"', `fill="none" class="avatar-part ${part}"`);
     } catch (err) {
         console.error(err);
